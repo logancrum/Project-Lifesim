@@ -39,6 +39,12 @@
     <ClCompile Include="src\item.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\town.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\location.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\game.h">
@@ -51,6 +57,12 @@
       <Filter>Source Files\include</Filter>
     </ClInclude>
     <ClInclude Include="include\item.h">
+      <Filter>Source Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\town.h">
+      <Filter>Source Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\location.h">
       <Filter>Source Files\include</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,11 +6,15 @@
 #include <iostream>
 #include <filesystem>
 
-#include <player.h>
-#include <item.h>
+#include <cctype>  // provides the tolower() function for char
+#include <conio.h> // handles keyboard input via getch()
 #include <cstdlib> // for _dupenv_s
 
 namespace fs = std::filesystem;
+
+const int MAP_MAX_ROWS = 86;
+const int MAP_MAX_COLS = 300;
+char gameMap[MAP_MAX_ROWS][MAP_MAX_COLS];
 
 Game::Game()
 {
@@ -31,9 +35,15 @@ std::string Game::getGameID() {
 void Game::start() {
 	// Initialize all items 
 	initialize_all_items();
+	//Initialize the game map
+	initMap();
+	
 	// Initialize Player object player
 	Player player;
-
+	
+	// TEST 
+	// displayMap(player);
+	
 	// Get user input
 	int userChoice = -1;
 	while (userChoice != 1 && userChoice != 2 && userChoice != 3) {
@@ -50,12 +60,15 @@ void Game::start() {
 		// Process user input
 		switch (userChoice) {
 		case 1:
+			system("CLS");
 			loadGameMM();
 			break;
 		case 2:
+			system("CLS");
 			newGame();
 			break;
 		case 3:
+			system("CLS");
 			quitGameMM();
 			break;
 		case 69:
@@ -70,6 +83,7 @@ void Game::start() {
 }
 
 void Game::printMain() {
+	system("CLS");
 	std::cout << "  __  __                    _                     " << std::endl;
 	std::cout << " |  \\/  | _   _  _ __    __| |  __ _  _ __    ___ " << std::endl;
 	std::cout << " | |\\/| || | | || '_ \\  / _` | / _` || '_ \\  / _ \\" << std::endl;
@@ -516,6 +530,8 @@ void Game::newGame() {
 	player.setMaxHP(100);
 	player.setHP(100);
 
+	system("CLS");
+
 	std::cout << "Welcome to Mundane, " << player.getName() << "!" << std::endl;
 	
 	// TEST player.printHP();
@@ -693,17 +709,21 @@ void Game::pauseMenu(Player set) {
 		int userChoice = getCleanInt();
 		switch (userChoice) {
 		case 1:
+			system("CLS");
 			paused = false;
 			runGame(set);
 			break;
 		case 2:
+			system("CLS");
 			saveGame(set);
 			break;
 		case 3:
+			system("CLS");
 			paused = false;
 			loadGame(set);
 			break;
 		case 4:
+			system("CLS");
 			quitGame(set);
 			break;
 		default:
@@ -717,9 +737,12 @@ void Game::runGame(Player set) {
 	while (gameRunning) {
 		std::cout << "                     Options:                     " << std::endl;
 		std::cout << "==================================================" << std::endl;
+		std::cout << "                                                  " << std::endl;
 		std::cout << "                 1: Pause Menu                    " << std::endl;
 		std::cout << "                 2: Journal                       " << std::endl;
 		std::cout << "                 3: Stats                         " << std::endl;
+		std::cout << "                 4: Move Player                   " << std::endl;
+		std::cout << "                                                  " << std::endl;
 		std::cout << "==================================================" << std::endl;
 		std::cout << std::endl;
 		std::cout << "Name: " << set.getName() << " | ";
@@ -729,66 +752,266 @@ void Game::runGame(Player set) {
 		int play = getCleanInt();
 		switch (play) {
 		case 1:
+			system("CLS");
 			pauseMenu(set);
 			break;
 		case 2:
+			system("CLS");
 			std::cout << "Sorry! The \'Journal\' logic has not yet been created... Coming soon!" << std::endl;
 			break;
 		case 3:
+			system("CLS");
 			std::cout << "Sorry! The \'Bio\' logic has not yet been created... Coming soon!" << std::endl;
 			break;
+		case 4:
+			system("CLS");
+			travMap(set);
 		default:
 			break;
 		}
 	}
 }
 
-void Game::initialize_all_items() {
-	// Variables for parsing sprite .csv files
-	std::vector<std::string> tempSprite;
-	std::string spriteLine;
+void Game::travMap(Player set) {
 	
-	// Declare file stream object to read from file
-	std::ifstream spriteFile(fs::current_path().string() + "\\sprites\\tusk_helm.txt");
-	std::cout << fs::current_path().string().append("\\sprites\\tusk_helm.txt") << std::endl;
+	bool mapTime = true;
 
-	// Helmets
-	Item tusk_helm;
-	while (std::getline(spriteFile, spriteLine)) {
-		// Extract data from each column and store in variables
-		std::istringstream issSprite(spriteLine);
-		std::getline(issSprite, spriteLine);
-		tempSprite.push_back(spriteLine);
+	displayMap(set);
+	std::cout << "Enter WASD movement command, Q to Quit: ";
+	char travChoice = getchar();
 
-		// Print the extracted data to the console
-		// std::cout << "s1: " << s1 << ", s2: " << s2 << ", s3: " << s3 << ", s4: " << s4 << std::endl;
+	while (mapTime) {
+		// Different switch options, message depending on Player Location on map
+		if (gameMap[set.getPlayerY()][set.getPlayerX()] == 'V') {
+			std::cout << "Enter WASD movement command, Q to Quit, or I to enter the town: ";
+			char travChoice = _getch();
+
+			if (tolower(travChoice) == 's') {
+				if (gameMap[set.getPlayerY() + 1][set.getPlayerX()] != '@') {
+					// Move North
+					set.incPlayerY();
+				}
+				// Display Map
+				system("CLS");
+				displayMap(set);
+			}
+			else if (tolower(travChoice) == 'a') {
+				if (gameMap[set.getPlayerY()][set.getPlayerX() - 1] != '@') {
+					// Move West
+					set.decPlayerX();
+				}
+				// Display Map
+				system("CLS");
+				displayMap(set);
+			}
+			else if (tolower(travChoice) == 'w') {
+				if (gameMap[set.getPlayerY() - 1][set.getPlayerX()] != '@') {
+					// Move South
+					set.decPlayerY();
+				}
+				// Display Map
+				system("CLS");
+				displayMap(set);
+			}
+			else if (tolower(travChoice) == 'd') {
+				if (gameMap[set.getPlayerY()][set.getPlayerX() + 1] != '@') {
+					// Move East
+					set.incPlayerX();
+				}
+				// Display Map
+				system("CLS");
+				displayMap(set);
+			}
+			else if (tolower(travChoice) == 'q') {
+				// Quit mapTime
+				mapTime = false;
+				system("CLS");
+				runGame(set);
+			}
+			else if (tolower(travChoice) == 'i') {
+				//if enterLocation(set);
+			}
+			else {
+				// Do Nothing
+			}
+		}
+		else
+		{
+			std::cout << "Enter WASD movement command, Q to Quit: ";
+			char travChoice = _getch();
+
+			if (tolower(travChoice) == 's') {
+				if (gameMap[set.getPlayerY() + 1][set.getPlayerX()] != '@') {
+					// Move North
+					set.incPlayerY();
+				}
+				// Display Map
+				system("CLS");
+				displayMap(set);
+			}
+			else if (tolower(travChoice) == 'a') {
+				if (gameMap[set.getPlayerY()][set.getPlayerX() - 1] != '@') {
+					// Move West
+					set.decPlayerX();
+				}
+				// Display Map
+				system("CLS");
+				displayMap(set);
+			}
+			else if (tolower(travChoice) == 'w') {
+				if (gameMap[set.getPlayerY() - 1][set.getPlayerX()] != '@') {
+					// Move South
+					set.decPlayerY();
+				}
+				// Display Map
+				system("CLS");
+				displayMap(set);
+			}
+			else if (tolower(travChoice) == 'd') {
+				if (gameMap[set.getPlayerY()][set.getPlayerX() + 1] != '@') {
+					// Move East
+					set.incPlayerX();
+				}
+				// Display Map
+				system("CLS");
+				displayMap(set);
+			}
+			else if (tolower(travChoice) == 'q') {
+				// Quit mapTime
+				mapTime = false;
+				system("CLS");
+				runGame(set);
+			}
+			else {
+				// Do Nothing
+			}
+		} 
 	}
+}
 
-	spriteFile.close();
+// Function to display the map
+void Game::displayMap(Player set) {
+	for (int i = 0; i < MAP_MAX_ROWS; i++) {
+		for (int j = 0; j < MAP_MAX_COLS; j++) {
+			if (i == set.getPlayerY() && j == set.getPlayerX()) {
+				std::cout << 'P';
+			}
+			else {
+				std::cout << gameMap[i][j];
+			}
+		}
+		std::cout << std::endl;
+	}
+	std::cout << set.getPlayerX() << " | " << set.getPlayerY() << std::endl;
+	std::cout << "\"" << gameMap[set.getPlayerY()][set.getPlayerX() + 1] << "\"" << " Lies East of P." << std::endl;
+}
 
-	// TESTS
-	tusk_helm.setItemSprite(tempSprite);
+int Game::initMap() {
+	// create ifstream to read map from txt file
+	std::ifstream mapFile(fs::current_path().string() + "\\maps\\world_map_ocean_contrast_b.txt");
+	
+	// Check that mapFile opened correctly
+	if (!mapFile.is_open()) {
+		std::cout << "ERROR: Could not open map file" << std::endl;
+		// Return ERROR code
+		return -1;
+	}
+	else {
+
+		// Read the map from the file
+		std::string mapLine;
+		int row = 0;
+
+		while (std::getline(mapFile, mapLine)) {
+			// Make sure the row isn't too long
+			if (mapLine.length() > MAP_MAX_COLS) {
+				std::cout << "Error: row " << row << " is too long!" << std::endl;
+				return 1;
+			}
+			// Copy the row into the map array
+			for (int col = 0; col < mapLine.length(); col++) {
+				gameMap[row][col] = mapLine[col];
+			}
+			row++; // move on to the next row
+		}
+		// Close the file
+		mapFile.close();
+
+		// Return successful code
+		return 0;
+	}
+}
+
+void Game::initialize_all_items() {
+
+	/*
+	
+			HELMETS
+	
+	*/
+
+	// Tusk Helm
+
+	Item tusk_helm;
+	tusk_helm.setItemSprite("\\sprites\\tusk_helm.txt");
 	tusk_helm.printItemSprite();
 
-	tempSprite.clear();
+	// Plain Bascinet
+
+	Item plain_bascinet;
+	plain_bascinet.setItemSprite("\\sprites\\plain_bascinet.txt");
+	plain_bascinet.printItemSprite();
 	
-	std::ifstream mapFile1(fs::current_path().string() + "\\sprites\\world_map.txt");
-	std::ofstream mapFile2(fs::current_path().string() + "\\sprites\\world_map_ocean_contrast.txt");
+	// Steel Helm
 
-	Item world_map;
-	while (std::getline(mapFile1, spriteLine)) {
-		// Extract data from each column and store in variables
-		std::istringstream issSprite(spriteLine);
-		std::getline(issSprite, spriteLine);
-		std::replace_if(spriteLine.begin(), spriteLine.end(), [](char ch) { return ch != ' '; }, '@');
-		tempSprite.push_back(spriteLine);
+	Item steel_helm;
+	steel_helm.setItemSprite("\\sprites\\steel_helm.txt");
+	steel_helm.printItemSprite();
 
-		mapFile2 << spriteLine << "\n";
-		// Print the extracted data to the console
-		// std::cout << "s1: " << s1 << ", s2: " << s2 << ", s3: " << s3 << ", s4: " << s4 << std::endl;
-	}
+	// Frog Mouth Great Helm
 
-	mapFile1.close();
-	mapFile2.close();
-	tempSprite.clear();
+	Item frog_mouth_great_helm;
+	frog_mouth_great_helm.setItemSprite("\\sprites\\frog_mouth_great_helm.txt");
+	frog_mouth_great_helm.printItemSprite();
+
+	// Mail Coif
+
+	Item mail_coif;
+	mail_coif.setItemSprite("\\sprites\\mail_coif.txt");
+	mail_coif.printItemSprite();
+
+	/*
+	
+			Town Sprites
+	
+	*/
+
+	// Thowerd Platz
+	// std::ifstream thowerdPlatzFile(fs::current_path().string() + "\\sprites\\Thowerd_Platz.txt");
+	// std::cout << fs::current_path().string().append("\\sprites\\Thowerd_Platz.txt") << std::endl;
+
+//	// TESTS
+//  // 1. print tusk helmn sprite
+//  tusk_helm.printItemSprite();
+//  
+// 	// 2. print map
+//	std::ifstream mapFile1(fs::current_path().string() + "\\sprites\\world_map.txt");
+//	std::ofstream mapFile2(fs::current_path().string() + "\\sprites\\world_map_ocean_contrast.txt");
+//
+//	Item world_map;
+//	while (std::getline(mapFile1, spriteLine)) {
+//		// Extract data from each column and store in variables
+//		std::istringstream issSprite(spriteLine);
+//		std::getline(issSprite, spriteLine);
+//		std::replace_if(spriteLine.begin(), spriteLine.end(), [](char ch) { return ch != ' '; }, '@');
+//		tempSprite.push_back(spriteLine);
+//
+//		mapFile2 << spriteLine << "\n";
+//		// Print the extracted data to the console
+//		// std::cout << "s1: " << s1 << ", s2: " << s2 << ", s3: " << s3 << ", s4: " << s4 << std::endl;
+//	}
+//
+//	mapFile1.close();
+//	mapFile2.close();
+//	tempSprite.clear();
 }

@@ -11,6 +11,9 @@ Player::Player()
 	isSpecial;
 	int hp = 0;
 	int maxHP = 0;
+
+	playerX = 50;
+	playerY = 40;
 }
 
 Player::~Player()
@@ -36,6 +39,18 @@ int Player::getHP() {
 
 int Player::getMaxHP() {
 	return maxHP;
+}
+
+int Player::getPlayerX() {
+	return playerX;
+}
+
+int Player::getPlayerY() {
+	return playerY;
+}
+
+bool Player::getInTown() {
+	return inTown;
 }
 
 // Mutators
@@ -80,6 +95,61 @@ void Player::setHP(int set) {
 void Player::setMaxHP(int set) {
 	maxHP = set;
 }
+
+
+// Player Geographic Data
+void Player::setPlayerX(int set) {
+	playerX = set;
+}
+
+void Player::setPlayerY(int set) {
+	playerY = set;
+}
+
+int Player::incRetPlayerX() {
+	playerX += 1;
+	return playerX;
+}
+
+int Player::incRetPlayerY() {
+	playerY += 1;
+	return playerY;
+}
+
+int Player::decRetPlayerX() {
+	playerX -= 1;
+	return playerX;
+}
+
+int Player::decRetPlayerY() {
+	playerY -= 1;
+	return playerY;
+}
+
+void Player::incPlayerX() {
+	playerX += 1;
+}
+
+void Player::incPlayerY() {
+	playerY += 1;
+}
+
+void Player::decPlayerX() {
+	playerX -= 1;
+}
+
+void Player::decPlayerY() {
+	playerY -= 1;
+}
+
+void Player::setInTownTrue() {
+	inTown = true;
+}
+
+void Player::setInTownFalse() {
+	inTown = false;
+}
+
 
 // Display stats
 void Player::printHP() {

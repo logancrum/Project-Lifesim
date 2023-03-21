@@ -1,9 +1,10 @@
 #pragma once
 #include <iostream>
-#include <player.h>
 
-class Game
-{
+#include <town.h>
+#include <item.h>
+
+class Game {
 public:
 	Game();
 	~Game();
@@ -14,6 +15,7 @@ private:
 public:
 	// Initialization
 	void start();
+	int initMap();
 	void initialize_all_items();
 
 	// Main menu functions
@@ -31,13 +33,19 @@ public:
 	// Game loop
 	void runGame(Player);
 
+	// Map loop
+	void travMap(Player);
+	void enterTown(Player);
+
+
+	// Function to display town, etc... 
 
 	// cin functions
 	int getCleanInt();
 	std::string getCleanString();
 
 	// Screen Printers
-
+	void displayMap(Player);
 
 	// Accessors
 	std::string getGameID();

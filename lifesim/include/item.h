@@ -4,8 +4,9 @@
 #include <filesystem>
 #include <fstream>
 
-class Item
-{
+namespace fs = std::filesystem;
+
+class Item {
 public:
 	Item();
 	~Item();
@@ -22,7 +23,7 @@ public:
 
 	// Mutators
 	void setItemName(std::string);
-	void setItemSprite(std::vector<std::string>);
+	void setItemSprite(std::string);
 
 private:
 	

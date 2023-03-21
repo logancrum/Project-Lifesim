@@ -31,8 +31,24 @@ void Item::setItemName(std::string setItemName) {
 	itemName = setItemName;
 }
 
-void Item::setItemSprite(std::vector<std::string> setVector) {
-	itemSprite = setVector;
+void Item::setItemSprite(std::string tempFileLoc) {
+	
+	std::ifstream tempFile(fs::current_path().string() + tempFileLoc);
+
+	std::vector<std::string> tempSprite;
+	std::string tempSpriteLine;
+
+	while (std::getline(tempFile, tempSpriteLine)) {
+		// Extract data from each column and store in variables
+		std::istringstream issSprite(tempSpriteLine);
+		std::getline(issSprite, tempSpriteLine);
+		tempSprite.push_back(tempSpriteLine);
+		// TEST Print the extracted data to the console
+		// std::cout << "s1: " << s1 << ", s2: " << s2 << ", s3: " << s3 << ", s4: " << s4 << std::endl;
+	}
+	tempFile.close();
+	itemSprite = tempSprite;
+	tempSprite.clear();
 }
 
 Item::Item()
@@ -80,3 +96,34 @@ Item::~Item()
 //  |______________________________________________|
 //   TUSK HELM                                      
 //
+//
+//
+//   ______________________________________________
+//  |                                              |
+//  |                     ..,,,,                   |
+//  |                 .,*/(((#((#(*.               |
+//  |              .,/(##%%%%%%###(/(/.            |
+//  |             *((##%%%%%%%%%#(((%#(/,          |
+//  |           ./(#%%%%%%%%%%%%%&###%%((*.        |
+//  |          *(##%%%%%%%%%%%%%%%%#%%%%##/,       |
+//  |         *(##%%%%%%%&&%%%%%%%%&#%&%%%#(,      |
+//  |        */(#%%%%%%%%&%&%%%%####((%&%%%#(.     |
+//  |       %/((#%%%%%%%%%%%&&&%%%%%###&&%%%#(,    |
+//  |       ,/(##%%(%%&&&%%&&&&%#((/*//(&&%%%#*    |
+//  |       ,/(#%%%%%%%&&&&&&%%%#%&&**//&&%%##(,   |
+//  |       ,/(,#%%*             ,(,,,*/&&         |
+//  |       */(#%(/%%%%%%%%%##((/*,,,,,/&%%%#(/.   |
+//  |       *(##%%%%%%%%%%%%%%%#((/,,,,&&%%#(*.    |
+//  |       *(#%%%%%%%%%%%%%%%##((/,*,,&%%%#(*     |
+//  |      .,(#%%%%%%%%%%%%%%% #((/,*,*%%%%#(*     |
+//  |      ,/(##%%%%.%%%%%%%####(//**,%%%%##/,.    |
+//  |     ,/(###%%%%%%%%%%%%%###((//*,%#%##(/,     |
+//  |    ,(#,###/###%%%%%%%%%####(/#**%%%%*(*,     |
+//  |     #############%%% %%####(//*%#%%#(/,.     |
+//  |         ,######(#%%%%%%%%%#////#(&#((/,.     |
+//  |             ((#((((########/(/(*((((/,.      |
+//  |                 #((((((####(/#*///*,,        |
+//  |                      (((((((((****           |
+//  |                            ((/               |
+//  |______________________________________________|
+//   STEEL HELM
