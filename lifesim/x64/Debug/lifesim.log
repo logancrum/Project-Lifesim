@@ -1,4 +1,2 @@
-﻿  game.cpp
-C:\Users\Logan\Development Projects\Project-Lifesim-main\lifesim\src\game.cpp(131): warning C4715: 'Game::getCleanInt': not all control paths return a value
-C:\Users\Logan\Development Projects\Project-Lifesim-main\lifesim\src\game.cpp(162): warning C4715: 'Game::getCleanString': not all control paths return a value
-  lifesim.vcxproj -> C:\Users\Logan\Development Projects\Project-Lifesim-main\lifesim\x64\Debug\lifesim.exe
+﻿  inventory.cpp
+  lifesim.vcxproj -> C:\Users\logan\Desktop\Text-Based RPG 1\lifesim2\lifesim\x64\Debug\lifesim.exe

@@ -1,14 +1,30 @@
 #include <location.h>
 
-void Location::enterLocation(Player set) {
-	system("CLS");
-	std::cout << "You arrive at " << getLocationName() << std::endl;
-	printHub();
+
+void Location::setScreen(std::string tempFileLoc) {
+
+	std::ifstream tempFile(fs::current_path().string() + tempFileLoc);
+
+	std::vector<std::string> tempScreen;
+	std::string tempScreenLine;
+
+	while (std::getline(tempFile, tempScreenLine)) {
+		// Extract data from each column and store in variables
+		std::istringstream issSprite(tempScreenLine);
+		std::getline(issSprite, tempScreenLine);
+		tempScreen.push_back(tempScreenLine);
+		// TEST Print the extracted data to the console
+		// std::cout << "s1: " << s1 << ", s2: " << s2 << ", s3: " << s3 << ", s4: " << s4 << std::endl;
+	}
+	tempFile.close();
+	screen = tempScreen;
+	tempScreen.clear();
 }
 
-void Location::printHub() {
-	for (int i = 0; i < centralHub.size(); i++) {
-		std::cout << centralHub.at(i) << std::endl;
+
+void Location::printScreen() {
+	for (int i = 0; i < screen.size(); i++) {
+		std::cout << screen.at(i) << std::endl;
 	}
 }
 
@@ -23,6 +39,16 @@ int Location::getLocationX() {
 int Location::getLocationY() {
 	return locationY;
 }
+
+void Location::setLocationX(int locX) {
+	locationX = locX;
+}
+
+void Location::setLocationY(int locY) {
+	locationY = locY;
+}
+
+
 
 Location::Location() {
 	locationX = 0;

@@ -3,6 +3,7 @@
 
 #include <town.h>
 #include <item.h>
+#include <player.h>
 
 class Game {
 public:
@@ -17,6 +18,7 @@ public:
 	void start();
 	int initMap();
 	void initialize_all_items();
+	void initialize_all_towns();
 
 	// Main menu functions
 	void printMain();
@@ -35,8 +37,12 @@ public:
 
 	// Map loop
 	void travMap(Player);
-	void enterTown(Player);
 
+	// Location loop
+	void enterTown(Player);
+	void enterBlacksmith(Town, Player);
+	void enterGrocer(Town, Player);
+	void enterTavern(Town, Player);
 
 	// Function to display town, etc... 
 
@@ -52,5 +58,12 @@ public:
 
 	// Mutators
 	void setGameID(std::string set);
+
+	std::vector<Town> towns;
+	std::vector<Location> locations;
+
+	// Towns
+	
+
 
 };

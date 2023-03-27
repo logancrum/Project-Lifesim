@@ -1,36 +1,66 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <filesystem>
+#include <fstream>
 
-#include <player.h>
+#include <conio.h> // handles keyboard input via getch()
+
+namespace fs = std::filesystem;
 
 class Location {
 public:
 	Location();
 	~Location();
 
-	void enterLocation(Player);
-
 	// Printers
-	void printHub();
+	void printScreen();
 	
 
-	// Getters
-
+	// Accessors
 	std::string getLocationName();
 
 	int getLocationX();
 	int getLocationY();
+
+	// Mutators
+	void setScreen(std::string);
+
+	void setLocationX(int);
+	void setLocationY(int);
 
 private:
 
 	std::string locationName;
 
 	// Store the main 'sprite'
-	std::vector<std::string> centralHub;
+	std::vector<std::string> screen;
 	// Store any attached locations which can be accessed via the main hub
 	std::vector<Location> auxLocations;
 
 	int locationX;
 	int locationY;
+
 };
+
+
+// 
+//
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 

@@ -15,6 +15,9 @@ namespace fs = std::filesystem;
 const int MAP_MAX_ROWS = 86;
 const int MAP_MAX_COLS = 300;
 char gameMap[MAP_MAX_ROWS][MAP_MAX_COLS];
+char gameMapCopy[MAP_MAX_ROWS][MAP_MAX_COLS];
+
+Town thowerd;
 
 Game::Game()
 {
@@ -37,6 +40,9 @@ void Game::start() {
 	initialize_all_items();
 	//Initialize the game map
 	initMap();
+	// Initialize towns, castles, caves, etc...
+
+	initialize_all_towns();
 	
 	// Initialize Player object player
 	Player player;
@@ -281,7 +287,7 @@ void Game::loadGameMM() {
 				}
 
 				// Declare variables to store data
-				std::string s1, s2, s3, s4;
+				std::string s1, s2, s3, s4, s5, s6;
 
 				// Read each line of the file and extract data into variables
 				std::string line;
@@ -291,10 +297,12 @@ void Game::loadGameMM() {
 					std::getline(iss, s1, ',');
 					std::getline(iss, s2, ',');
 					std::getline(iss, s3, ',');
-					std::getline(iss, s4);
+					std::getline(iss, s4, ',');
+					std::getline(iss, s5, ',');
+					std::getline(iss, s6, ',');
 
 					// Print the extracted data to the console
-					// std::cout << "s1: " << s1 << ", s2: " << s2 << ", s3: " << s3 << ", s4: " << s4 << std::endl;
+					std::cout << "s1: " << s1 << ", s2: " << s2 << ", s3: " << s3 << ", s4: " << s4 << "s5: " << s5 << ", s6: " << s6 << std::endl;
 				}
 
 				// Close the file stream
@@ -313,6 +321,9 @@ void Game::loadGameMM() {
 				loaded.setHP(stoi(s3));
 				// Set maxHP
 				loaded.setMaxHP(stoi(s4));
+
+				loaded.setPlayerX(stoi(s5));
+				loaded.setPlayerY(stoi(s6));
 
 				// Welcome the player back
 				std::cout << "Welcome back, " << loaded.getName() << "!" << std::endl;
@@ -467,7 +478,7 @@ void Game::loadGame(Player set) {
 				}
 
 				// Declare variables to store data
-				std::string s1, s2, s3, s4;
+				std::string s1, s2, s3, s4, s5, s6;
 
 				// Read each line of the file and extract data into variables
 				std::string line;
@@ -477,10 +488,12 @@ void Game::loadGame(Player set) {
 					std::getline(iss, s1, ',');
 					std::getline(iss, s2, ',');
 					std::getline(iss, s3, ',');
-					std::getline(iss, s4);
+					std::getline(iss, s4, ',');
+					std::getline(iss, s5, ',');
+					std::getline(iss, s6, ',');
 
 					// Print the extracted data to the console
-					std::cout << "s1: " << s1 << ", s2: " << s2 << ", s3: " << s3 << ", s4: " << s4 << std::endl;
+					std::cout << "s1: " << s1 << ", s2: " << s2 << ", s3: " << s3 << ", s4: " << s4 << "s5: " << s5 << ", s6: " << s6 << std::endl;
 				}
 
 				// Close the file stream
@@ -499,6 +512,9 @@ void Game::loadGame(Player set) {
 				loaded.setHP(stoi(s3));
 				// Set maxHP
 				loaded.setMaxHP(stoi(s4));
+
+				loaded.setPlayerX(stoi(s5));
+				loaded.setPlayerY(stoi(s6));
 
 				// Welcome the player back
 				std::cout << "Welcome back, " << loaded.getName() << "!" << std::endl;
@@ -681,6 +697,8 @@ void Game::saveGame(Player set) {
 	saveFile << set.getIsSpecial() << ",";
 	saveFile << set.getHP() << ",";
 	saveFile << set.getMaxHP() << ",";
+	saveFile << set.getPlayerX() << ",";
+	saveFile << set.getPlayerY() << ",";
 
 	// TODO: Include additional player data, as well as inventory data
 
@@ -776,9 +794,10 @@ void Game::travMap(Player set) {
 	
 	bool mapTime = true;
 
+	system("CLS");
+	std::cin.clear();
+
 	displayMap(set);
-	std::cout << "Enter WASD movement command, Q to Quit: ";
-	char travChoice = getchar();
 
 	while (mapTime) {
 		// Different switch options, message depending on Player Location on map
@@ -829,7 +848,7 @@ void Game::travMap(Player set) {
 				runGame(set);
 			}
 			else if (tolower(travChoice) == 'i') {
-				//if enterLocation(set);
+				enterTown(set);
 			}
 			else {
 				// Do Nothing
@@ -891,19 +910,89 @@ void Game::travMap(Player set) {
 
 // Function to display the map
 void Game::displayMap(Player set) {
+	// std::vector<std::string> mapStrings;
+
 	for (int i = 0; i < MAP_MAX_ROWS; i++) {
+		std::string mapString = "";
 		for (int j = 0; j < MAP_MAX_COLS; j++) {
 			if (i == set.getPlayerY() && j == set.getPlayerX()) {
-				std::cout << 'P';
+				mapString += 'P';
 			}
 			else {
-				std::cout << gameMap[i][j];
+				mapString += gameMap[i][j];
 			}
 		}
-		std::cout << std::endl;
+		std::cout << mapString << std::endl;
 	}
+	
+	std::cout << std::endl;
 	std::cout << set.getPlayerX() << " | " << set.getPlayerY() << std::endl;
 	std::cout << "\"" << gameMap[set.getPlayerY()][set.getPlayerX() + 1] << "\"" << " Lies East of P." << std::endl;
+}
+
+void Game::enterTown(Player set) {
+	
+	char townChoice;
+
+	Town tempTown;
+	if ((set.getPlayerX() == 68) && (set.getPlayerY() == 44)) {
+		// Begin abstract town interactions
+		tempTown = thowerd;
+	}
+
+	set.setInTownTrue();
+	
+	while (set.getInTown()) {
+		std::cin.clear();
+
+		tempTown.printScreen();
+		std::cout << "State your business: ";
+
+		townChoice = _getch();
+		if (townChoice == '1') {
+			enterBlacksmith(thowerd, set);
+		}
+		else if (townChoice == '2') {
+			enterGrocer(thowerd, set);
+		}
+		else if (townChoice == '3') {
+			enterTavern(thowerd, set);
+		}
+		else if (townChoice == '4') {
+			set.setInTownFalse();
+			travMap(set);
+		}
+		else {
+			thowerd.printScreen();
+			std::cout << "State your business: ";
+			townChoice = _getch();
+		}
+	}
+}
+
+void Game::enterBlacksmith(Town town, Player set) {
+	system("CLS");
+	std::cin.clear();
+	town.printBlacksmith();
+	std::cout << "Press any alphanumerical key to return to the town square." << std::endl;
+	char stalling = _getch();
+	system("CLS");
+}
+
+void Game::enterGrocer(Town town, Player set) {
+	system("CLS");
+	std::cin.clear();
+	town.printGrocer();
+	std::cout << "Press any alphanumerical key to return to the town square." << std::endl;
+	char stalling = _getch();
+}
+
+void Game::enterTavern(Town town, Player set) {
+	system("CLS");
+	std::cin.clear();
+	town.printTavern();
+	std::cout << "Press any alphanumerical key to return to the town square." << std::endl;
+	char stalling = _getch();
 }
 
 int Game::initMap() {
@@ -979,39 +1068,21 @@ void Game::initialize_all_items() {
 	Item mail_coif;
 	mail_coif.setItemSprite("\\sprites\\mail_coif.txt");
 	mail_coif.printItemSprite();
+}
 
+void Game::initialize_all_towns() {
+	
 	/*
-	
-			Town Sprites
-	
+
+			Towns
+
 	*/
 
 	// Thowerd Platz
-	// std::ifstream thowerdPlatzFile(fs::current_path().string() + "\\sprites\\Thowerd_Platz.txt");
-	// std::cout << fs::current_path().string().append("\\sprites\\Thowerd_Platz.txt") << std::endl;
-
-//	// TESTS
-//  // 1. print tusk helmn sprite
-//  tusk_helm.printItemSprite();
-//  
-// 	// 2. print map
-//	std::ifstream mapFile1(fs::current_path().string() + "\\sprites\\world_map.txt");
-//	std::ofstream mapFile2(fs::current_path().string() + "\\sprites\\world_map_ocean_contrast.txt");
-//
-//	Item world_map;
-//	while (std::getline(mapFile1, spriteLine)) {
-//		// Extract data from each column and store in variables
-//		std::istringstream issSprite(spriteLine);
-//		std::getline(issSprite, spriteLine);
-//		std::replace_if(spriteLine.begin(), spriteLine.end(), [](char ch) { return ch != ' '; }, '@');
-//		tempSprite.push_back(spriteLine);
-//
-//		mapFile2 << spriteLine << "\n";
-//		// Print the extracted data to the console
-//		// std::cout << "s1: " << s1 << ", s2: " << s2 << ", s3: " << s3 << ", s4: " << s4 << std::endl;
-//	}
-//
-//	mapFile1.close();
-//	mapFile2.close();
-//	tempSprite.clear();
+	thowerd.setLocationX(68);
+	thowerd.setLocationY(44);
+	thowerd.setScreen("\\locations\\towns\\Thowerd_Platz.txt");
+	thowerd.setTownAuxScreens("\\locations\\towns\\Thowerd_Smith.txt",
+		"\\locations\\towns\\Thowerd_Grocer.txt",
+		"\\locations\\towns\\Thowerd_Tavern.txt");
 }
