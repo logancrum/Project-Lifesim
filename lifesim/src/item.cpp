@@ -13,6 +13,10 @@ std::string Item::getItemName() {
 	return itemName;
 }
 
+std::string Item::getItemType() {
+	return itemType;
+}
+
 int Item::getItemDam() {
 	return itemDam;
 }
@@ -24,6 +28,8 @@ int Item::getItemDT() {
 int Item::getItemValue() {
 	return itemValue;
 }
+
+
 
 // Mutators
 
@@ -56,6 +62,9 @@ Item::Item()
 	itemDam = 0;
 	itemDT = 0;
 	itemValue = 0;
+	itemName = "item";
+	itemType = 'X';
+	itemSprite = {};
 }
 
 Item::~Item()

@@ -19,12 +19,15 @@ char gameMapCopy[MAP_MAX_ROWS][MAP_MAX_COLS];
 
 Town thowerd;
 
-Game::Game()
-{
+Game::Game() {
+	day = 1;
+	season = "Spring";
+	seasonCount = 1;
+	year = 300;
+
 }
 
-Game::~Game()
-{
+Game::~Game() {
 }
 
 void Game::setGameID(std::string set) {
@@ -134,6 +137,7 @@ int Game::getCleanInt() {
 			return userInt;
 		}
 	}
+	return -1;
 }
 
 std::string Game::getCleanString() {
@@ -144,8 +148,7 @@ std::string Game::getCleanString() {
 	while (failed == true) {
 		std::cin >> userString;
 
-		if (std::cin.fail())
-		{
+		if (std::cin.fail()) {
 			std::cout << "==================================================" << std::endl;
 			std::cout << "               ERROR! Invalid Input               " << std::endl;
 			std::cout << "==================================================" << std::endl;
@@ -165,6 +168,7 @@ std::string Game::getCleanString() {
 			return userString;
 		}
 	}
+	return "ERROR: COULD NOT GET CLEAN STRING!";
 }
 
 void Game::loadGameMM() {
@@ -807,7 +811,8 @@ void Game::travMap(Player set) {
 
 			if (tolower(travChoice) == 's') {
 				if (gameMap[set.getPlayerY() + 1][set.getPlayerX()] != '@') {
-					// Move North
+					// Move South
+					incrementDay();
 					set.incPlayerY();
 				}
 				// Display Map
@@ -817,6 +822,7 @@ void Game::travMap(Player set) {
 			else if (tolower(travChoice) == 'a') {
 				if (gameMap[set.getPlayerY()][set.getPlayerX() - 1] != '@') {
 					// Move West
+					incrementDay();
 					set.decPlayerX();
 				}
 				// Display Map
@@ -825,7 +831,8 @@ void Game::travMap(Player set) {
 			}
 			else if (tolower(travChoice) == 'w') {
 				if (gameMap[set.getPlayerY() - 1][set.getPlayerX()] != '@') {
-					// Move South
+					// Move North
+					incrementDay();
 					set.decPlayerY();
 				}
 				// Display Map
@@ -835,6 +842,7 @@ void Game::travMap(Player set) {
 			else if (tolower(travChoice) == 'd') {
 				if (gameMap[set.getPlayerY()][set.getPlayerX() + 1] != '@') {
 					// Move East
+					incrementDay();
 					set.incPlayerX();
 				}
 				// Display Map
@@ -862,6 +870,7 @@ void Game::travMap(Player set) {
 			if (tolower(travChoice) == 's') {
 				if (gameMap[set.getPlayerY() + 1][set.getPlayerX()] != '@') {
 					// Move North
+					incrementDay();
 					set.incPlayerY();
 				}
 				// Display Map
@@ -871,6 +880,7 @@ void Game::travMap(Player set) {
 			else if (tolower(travChoice) == 'a') {
 				if (gameMap[set.getPlayerY()][set.getPlayerX() - 1] != '@') {
 					// Move West
+					incrementDay();
 					set.decPlayerX();
 				}
 				// Display Map
@@ -880,6 +890,7 @@ void Game::travMap(Player set) {
 			else if (tolower(travChoice) == 'w') {
 				if (gameMap[set.getPlayerY() - 1][set.getPlayerX()] != '@') {
 					// Move South
+					incrementDay();
 					set.decPlayerY();
 				}
 				// Display Map
@@ -889,6 +900,7 @@ void Game::travMap(Player set) {
 			else if (tolower(travChoice) == 'd') {
 				if (gameMap[set.getPlayerY()][set.getPlayerX() + 1] != '@') {
 					// Move East
+					incrementDay();
 					set.incPlayerX();
 				}
 				// Display Map
@@ -927,7 +939,7 @@ void Game::displayMap(Player set) {
 	
 	std::cout << std::endl;
 	std::cout << set.getPlayerX() << " | " << set.getPlayerY() << std::endl;
-	std::cout << "\"" << gameMap[set.getPlayerY()][set.getPlayerX() + 1] << "\"" << " Lies East of P." << std::endl;
+	printCalendar();
 }
 
 void Game::enterTown(Player set) {
@@ -993,6 +1005,40 @@ void Game::enterTavern(Town town, Player set) {
 	town.printTavern();
 	std::cout << "Press any alphanumerical key to return to the town square." << std::endl;
 	char stalling = _getch();
+}
+
+void Game::incrementDay() {
+	day += 1;
+	if (day == 90) {
+		// reset to day one of the new season
+		day = 1;
+
+		// change the season
+		seasonCount += 1;
+
+		if (seasonCount == 5) {
+			// This marks the end of winter; reset seasonCount, increment year, set season to spring
+			seasonCount = 1;
+			year += 1;
+			season = "Spring";
+		}
+		else if (seasonCount == 2) {
+			// This marks the end of spring; set season to summer
+			season = "Summer";
+		}
+		else if (seasonCount == 3) {
+			// This marks the end of summer; set season to autumn
+			season = "Autumn";
+		}
+		else if (seasonCount == 4) {
+			// This marks the end of autumn; set season to winter
+			season = "Winter";
+		}
+	}
+}
+
+void Game::printCalendar() {
+	std::cout << "Today is Day " << day << " of " << season << ", in the Year " << year << "." << std::endl;
 }
 
 int Game::initMap() {

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <map>
 
 #include <item.h>
 
@@ -8,26 +9,45 @@
 class Inventory {
 public:
 	Inventory();
-	~Inventory();
 
 	// Equip and Unequip Functions handle stat change on player
-	void equipItem(); 
-	void unequipItem();
+	void equipItem(Item); 
+	void unequipItem(Item);
+	void unequipItem(int);
 
+	void decrementCarriedItem(Item itemArg);
+	void incrementCarriedItem(Item itemArg);
 
+	Item getCarriedItem(std::string itemNameArg);
+
+	int getIndexOfEquippedItemOfType(std::string itemTypeArg);
+
+	int getItemCount(std::string);
+
+	void buyItem(Item);
+	void sellItem(Item);
+	void receiveChange(int);
 	
 private:
-	std::vector<Item> carriedItems; // FIXME: change type to std::vector<Item> items; once the item class is complete
-	std::vector<std::string> equippedItems; // FIXME: change type to std::vector<Item> items; once the item class is complete
+	std::map<std::string, int> carriedItemsAndAmounts {};
+	std::vector<Item> equippedItems {};
+
+	const int COPPER_VALUE = 1;
+	const int SILVER_VALUE = 10;
+	const int GOLD_VALUE = 100;
+	const int PLATINUM_VALUE = 1000;
+
+	int copperBits;
+	int silverBobs;
+	int goldCoins;
+	int platinumChips;
+
+	int maxTransaction;
+
+	int buyMultiplier;
+	int sellMultiplier;
+
 };
-
-Inventory::Inventory()
-{
-}
-
-Inventory::~Inventory()
-{
-}
 
 // ASCII ART OF ITEMS
 //

@@ -15,11 +15,14 @@ public:
 
 	// Accessors
 	std::string getItemName();
+	std::string getItemType();
 
 	int getItemDam();
 	int getItemDT();
 
 	int getItemValue();
+
+	Item getItem(std::string itemNameArg);
 
 	// Mutators
 	void setItemName(std::string);
@@ -39,5 +42,5 @@ private:
 	std::string itemType; 
 	// TYPES: H = Head, C = Chest, L = Legs, G = Gloves, F = Feet, W = Weapon, S = Shield, P = Potion
 
-	std::vector<std::string> itemSprite;
+	std::vector<std::string> itemSprite {};
 };

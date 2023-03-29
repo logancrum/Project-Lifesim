@@ -13,6 +13,12 @@ public:
 private:
 	std::string gameID;
 
+	// Calendar elements
+	int day;
+	int year;
+	std::string season;
+	int seasonCount;
+
 public:
 	// Initialization
 	void start();
@@ -44,7 +50,9 @@ public:
 	void enterGrocer(Town, Player);
 	void enterTavern(Town, Player);
 
-	// Function to display town, etc... 
+	// Calendar functions
+	void incrementDay();
+	void printCalendar();
 
 	// cin functions
 	int getCleanInt();
