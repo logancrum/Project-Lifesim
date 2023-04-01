@@ -37,6 +37,10 @@ void Item::setItemName(std::string setItemName) {
 	itemName = setItemName;
 }
 
+void Item::setItemType(std::string itemTypeArg) {
+	itemType = itemTypeArg;
+}
+
 void Item::setItemSprite(std::string tempFileLoc) {
 	
 	std::ifstream tempFile(fs::current_path().string() + tempFileLoc);
@@ -55,6 +59,18 @@ void Item::setItemSprite(std::string tempFileLoc) {
 	tempFile.close();
 	itemSprite = tempSprite;
 	tempSprite.clear();
+}
+
+void Item::setItemDam(int damArg) {
+	itemDam = damArg;
+}
+
+void Item::setItemDT(int defArg) {
+	itemDT = defArg;
+}
+
+void Item::setItemValue(int valArg) {
+	itemValue = valArg;
 }
 
 Item::Item()

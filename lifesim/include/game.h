@@ -1,14 +1,24 @@
 #pragma once
+
+#include <fstream>
+#include <string>
+#include <vector>
 #include <iostream>
+#include <filesystem>
+
+#include <cctype>  // provides the tolower() function for char
+#include <conio.h> // handles keyboard input via getch()
+#include <cstdlib> // for _dupenv_s
 
 #include <town.h>
-#include <item.h>
+#include <inventory.h>
 #include <player.h>
 
 class Game {
 public:
 	Game();
 	~Game();
+
 
 private:
 	std::string gameID;
@@ -25,6 +35,8 @@ public:
 	int initMap();
 	void initialize_all_items();
 	void initialize_all_towns();
+
+	std::vector<Item> allItems{};
 
 	// Main menu functions
 	void printMain();
@@ -67,11 +79,13 @@ public:
 	// Mutators
 	void setGameID(std::string set);
 
-	std::vector<Town> towns;
-	std::vector<Location> locations;
+	std::vector<Town> all_towns;
+	std::vector<Location> all_locations;
+
+	// All Items and all item types
+	std::vector<Item> all_items {};
+	std::vector<Item> all_helmets{};
 
 	// Towns
 	
-
-
 };

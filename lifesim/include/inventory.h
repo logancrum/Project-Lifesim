@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <iomanip>
 #include <map>
 
 #include <item.h>
@@ -9,6 +10,8 @@
 class Inventory {
 public:
 	Inventory();
+	~Inventory() {
+	}
 
 	// Equip and Unequip Functions handle stat change on player
 	void equipItem(Item); 
@@ -18,30 +21,61 @@ public:
 	void decrementCarriedItem(Item itemArg);
 	void incrementCarriedItem(Item itemArg);
 
-	Item getCarriedItem(std::string itemNameArg);
-
 	int getIndexOfEquippedItemOfType(std::string itemTypeArg);
 
 	int getItemCount(std::string);
+	std::vector<Item> getFoundItems();
+	Item getFoundItem(int indexIndex);
 
 	void buyItem(Item);
 	void sellItem(Item);
+	bool sellItem(int indexArg);
 	void receiveChange(int);
 	
+	int getTotalPurse();
+
+	std::string getInventoryHeader();
+	// With modifiers for selling transactions
+	void printInventorySell();
+	void printItemLineSell(Item itemArg);
+	// With modifiers fot buying transactions
+	void printInventoryBuy();
+	void printItemLineBuy(Item itemArg);
+	// Print wihtout modifiers
+	void printInventoryNeutral();
+	void printItemLineNeutral(Item itemArg);
+	
+	std::string getInventoryFooterSell();
+	std::string getInventoryFooterBuy();
+	std::string getInventoryFooterNeutral();
+
+	// Mutators
+	void setCurrency(int copperArg, int silverArg, int goldArg, int platArg);
+	void setMaxTransaction(int maxTransArg);
+	void setBuyMult(int);
+	void setSellMult(int);
+	void setBelongsTo(std::string);
+
 private:
 	std::map<std::string, int> carriedItemsAndAmounts {};
 	std::vector<Item> equippedItems {};
+	std::vector<Item> carriedItems {};
+
+	std::vector<Item> foundItems = {};
 
 	const int COPPER_VALUE = 1;
 	const int SILVER_VALUE = 10;
 	const int GOLD_VALUE = 100;
 	const int PLATINUM_VALUE = 1000;
 
+	std::string belongsTo;
+
 	int copperBits;
 	int silverBobs;
 	int goldCoins;
 	int platinumChips;
 
+	// Set to -1 for players!
 	int maxTransaction;
 
 	int buyMultiplier;

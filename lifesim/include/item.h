@@ -11,6 +11,10 @@ public:
 	Item();
 	~Item();
 
+	bool operator==(const Item& other) const {
+		return this->itemName == other.itemName;
+	}
+
 	void printItemSprite();
 
 	// Accessors
@@ -26,21 +30,25 @@ public:
 
 	// Mutators
 	void setItemName(std::string);
+	void setItemType(std::string);
+	void setItemDam(int);
+	void setItemDT(int);
+	void setItemValue(int);
+
 	void setItemSprite(std::string);
 
 private:
+	std::string itemName;
+
+	// Item type determines equippable (chest/head/legs etc...) or consumable
+	std::string itemType;
+	// TYPES: H = Head, C = Chest, L = Legs, G = Gloves, F = Feet, W = Weapon, S = Shield, P = Potion
 	
 	// For weapons
 	int itemDam;
 	// For shields and armor
 	int itemDT;
 	int itemValue;
-
-	std::string itemName;
-
-	// Item type determines equippable (chest/head/legs etc...) or consumable
-	std::string itemType; 
-	// TYPES: H = Head, C = Chest, L = Legs, G = Gloves, F = Feet, W = Weapon, S = Shield, P = Potion
 
 	std::vector<std::string> itemSprite {};
 };

@@ -1,14 +1,5 @@
 #include <game.h>
 
-#include <fstream>
-#include <string>
-#include <vector>
-#include <iostream>
-#include <filesystem>
-
-#include <cctype>  // provides the tolower() function for char
-#include <conio.h> // handles keyboard input via getch()
-#include <cstdlib> // for _dupenv_s
 
 namespace fs = std::filesystem;
 
@@ -1007,6 +998,8 @@ void Game::enterTavern(Town town, Player set) {
 	char stalling = _getch();
 }
 
+// FIXME: Create a loop for each auxilliary location 
+
 void Game::incrementDay() {
 	day += 1;
 	if (day == 90) {
@@ -1034,6 +1027,10 @@ void Game::incrementDay() {
 			// This marks the end of autumn; set season to winter
 			season = "Winter";
 		}
+	}
+
+	if ((day % 15) == 1) {
+		// FIXME: reset all store inventories
 	}
 }
 
@@ -1089,31 +1086,61 @@ void Game::initialize_all_items() {
 
 	Item tusk_helm;
 	tusk_helm.setItemSprite("\\sprites\\tusk_helm.txt");
-	tusk_helm.printItemSprite();
+	tusk_helm.setItemName("Tusk Helm");
+	tusk_helm.setItemType("Helmet");
+	tusk_helm.setItemDam(0);
+	tusk_helm.setItemDT(2);
+	tusk_helm.setItemValue(100);
+	all_items.push_back(tusk_helm);
+	all_helmets.push_back(tusk_helm);
 
 	// Plain Bascinet
 
 	Item plain_bascinet;
 	plain_bascinet.setItemSprite("\\sprites\\plain_bascinet.txt");
-	plain_bascinet.printItemSprite();
-	
+	plain_bascinet.setItemName("Plain Bascinet");
+	plain_bascinet.setItemType("Helmet");
+	plain_bascinet.setItemDam(0);
+	plain_bascinet.setItemDT(4);
+	plain_bascinet.setItemValue(400);
+	all_items.push_back(plain_bascinet);
+	all_helmets.push_back(plain_bascinet);
+
 	// Steel Helm
 
 	Item steel_helm;
 	steel_helm.setItemSprite("\\sprites\\steel_helm.txt");
-	steel_helm.printItemSprite();
+	steel_helm.setItemName("Steel Helm");
+	steel_helm.setItemType("Helmet");
+	steel_helm.setItemDam(0);
+	steel_helm.setItemDT(5);
+	steel_helm.setItemValue(1000);
+	all_items.push_back(steel_helm);
+	all_helmets.push_back(steel_helm);
 
 	// Frog Mouth Great Helm
 
 	Item frog_mouth_great_helm;
 	frog_mouth_great_helm.setItemSprite("\\sprites\\frog_mouth_great_helm.txt");
-	frog_mouth_great_helm.printItemSprite();
+	frog_mouth_great_helm.setItemName("Frog-Mouth Great Helm");
+	frog_mouth_great_helm.setItemType("Helmet");
+	frog_mouth_great_helm.setItemDam(0);
+	frog_mouth_great_helm.setItemDT(7);
+	frog_mouth_great_helm.setItemValue(2000);
+	all_items.push_back(frog_mouth_great_helm);
+	all_helmets.push_back(frog_mouth_great_helm);
 
 	// Mail Coif
 
 	Item mail_coif;
 	mail_coif.setItemSprite("\\sprites\\mail_coif.txt");
-	mail_coif.printItemSprite();
+	mail_coif.setItemName("Mail Coif");
+	mail_coif.setItemType("Helmet");
+	mail_coif.setItemDam(0);
+	mail_coif.setItemDT(3);
+	mail_coif.setItemValue(800);
+	all_items.push_back(mail_coif);
+	all_helmets.push_back(mail_coif);
 }
 
 void Game::initialize_all_towns() {

@@ -33,6 +33,7 @@
     <ClInclude Include="include\item.h" />
     <ClInclude Include="include\location.h" />
     <ClInclude Include="include\player.h" />
+    <ClInclude Include="include\test.h" />
     <ClInclude Include="include\town.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
