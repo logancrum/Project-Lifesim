@@ -40,6 +40,10 @@ int Location::getLocationY() {
 	return locationY;
 }
 
+std::vector<Location> Location::getAuxLocations() {
+	return auxLocations;
+}
+
 void Location::setLocationX(int locX) {
 	locationX = locX;
 }
@@ -48,6 +52,9 @@ void Location::setLocationY(int locY) {
 	locationY = locY;
 }
 
+void Location::addAuxLoc(Location locArg) {
+	auxLocations.emplace_back(locArg);
+}
 
 
 Location::Location() {

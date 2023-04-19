@@ -8,7 +8,7 @@ Player::Player()
 
 	// Vital Data
 	isAlive = true;
-	isSpecial;
+	setIsSpecial();
 	int hp = 0;
 	int maxHP = 0;
 

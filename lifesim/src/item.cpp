@@ -1,4 +1,7 @@
+#pragma once
+
 #include <item.h>
+#include <town.h>
 #include <vector>
 
 void Item::printItemSprite() {
@@ -79,8 +82,19 @@ Item::Item()
 	itemDT = 0;
 	itemValue = 0;
 	itemName = "item";
-	itemType = 'X';
+	itemType = "X";
 	itemSprite = {};
+}
+
+Item::Item(std::string nameArg, std::string typeArg, int damageArg, int defenseArg, int valueArg, std::string spritePathArg) :
+	itemName(nameArg), itemType(typeArg), itemDam(damageArg), itemDT(defenseArg), itemValue(valueArg) {
+	setItemSprite(spritePathArg);
+	itemSustenance = 0;
+}
+
+Item::Item(std::string nameArg, std::string typeArg, int damageArg, int defenseArg, int sustArg, int valueArg, std::string spritePathArg) :
+	itemName(nameArg), itemType(typeArg), itemDam(damageArg), itemDT(defenseArg), itemSustenance(sustArg), itemValue(valueArg) {
+	setItemSprite(spritePathArg);
 }
 
 Item::~Item()
@@ -120,35 +134,3 @@ Item::~Item()
 //  |          .                        :.         |
 //  |______________________________________________|
 //   TUSK HELM                                      
-//
-//
-//
-//   ______________________________________________
-//  |                                              |
-//  |                     ..,,,,                   |
-//  |                 .,*/(((#((#(*.               |
-//  |              .,/(##%%%%%%###(/(/.            |
-//  |             *((##%%%%%%%%%#(((%#(/,          |
-//  |           ./(#%%%%%%%%%%%%%&###%%((*.        |
-//  |          *(##%%%%%%%%%%%%%%%%#%%%%##/,       |
-//  |         *(##%%%%%%%&&%%%%%%%%&#%&%%%#(,      |
-//  |        */(#%%%%%%%%&%&%%%%####((%&%%%#(.     |
-//  |       %/((#%%%%%%%%%%%&&&%%%%%###&&%%%#(,    |
-//  |       ,/(##%%(%%&&&%%&&&&%#((/*//(&&%%%#*    |
-//  |       ,/(#%%%%%%%&&&&&&%%%#%&&**//&&%%##(,   |
-//  |       ,/(,#%%*             ,(,,,*/&&         |
-//  |       */(#%(/%%%%%%%%%##((/*,,,,,/&%%%#(/.   |
-//  |       *(##%%%%%%%%%%%%%%%#((/,,,,&&%%#(*.    |
-//  |       *(#%%%%%%%%%%%%%%%##((/,*,,&%%%#(*     |
-//  |      .,(#%%%%%%%%%%%%%%% #((/,*,*%%%%#(*     |
-//  |      ,/(##%%%%.%%%%%%%####(//**,%%%%##/,.    |
-//  |     ,/(###%%%%%%%%%%%%%###((//*,%#%##(/,     |
-//  |    ,(#,###/###%%%%%%%%%####(/#**%%%%*(*,     |
-//  |     #############%%% %%####(//*%#%%#(/,.     |
-//  |         ,######(#%%%%%%%%%#////#(&#((/,.     |
-//  |             ((#((((########/(/(*((((/,.      |
-//  |                 #((((((####(/#*///*,,        |
-//  |                      (((((((((****           |
-//  |                            ((/               |
-//  |______________________________________________|
-//   STEEL HELM
