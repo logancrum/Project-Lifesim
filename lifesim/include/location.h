@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
-#include <iostream>
 #include <filesystem>
 #include <fstream>
+
+
+#include <inventory.h>
 
 #include <conio.h> // handles keyboard input via getch()
 
@@ -23,11 +25,18 @@ public:
 	int getLocationX();
 	int getLocationY();
 
+	std::vector<Location> getAuxLocations();
+
+	void addAuxLoc(Location);
+
 	// Mutators
 	void setScreen(std::string);
 
+	void setLocationName(std::string nameArg) { locationName = nameArg; }
+
 	void setLocationX(int);
 	void setLocationY(int);
+
 
 private:
 
@@ -42,25 +51,3 @@ private:
 	int locationY;
 
 };
-
-
-// 
-//
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
